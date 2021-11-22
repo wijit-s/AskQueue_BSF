@@ -1,0 +1,12 @@
+{
+  "hosting": {
+    "site": "brr-cue",
+    "public": "dist/SugarCaneFarAway",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+      
+    ]
+  }
+}
