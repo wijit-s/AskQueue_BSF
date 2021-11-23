@@ -15,6 +15,7 @@ export class FardashboardComponent implements OnInit {
   barcodeScanner: BarcodeScannerLivestreamComponent = new BarcodeScannerLivestreamComponent;
   barcodeValue:any;
 
+  barcode_type="code_128"
   userdata:any;
   FormOne:FormGroup;
   constructor(private userlogin:LoginService) {

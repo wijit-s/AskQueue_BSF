@@ -9,10 +9,10 @@ import { FooterComponent } from './core/component/footer/footer.component';
 import { SidebarComponent } from './core/component/sidebar/sidebar.component';
 
 import { MainboardComponent } from './core/component/mainboard/mainboard.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BarcodeScannerLivestreamModule } from 'ngx-barcode-scanner';
 import { FardashboardComponent } from './core/component/fardashboard/fardashboard.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { FardashboardComponent } from './core/component/fardashboard/fardashboar
     ReactiveFormsModule,
     FormsModule,
     NgxSpinnerModule,
-    BarcodeScannerLivestreamModule
+    BarcodeScannerLivestreamModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

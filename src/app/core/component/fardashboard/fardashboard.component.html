@@ -11,14 +11,14 @@
                         <button class="btn btn-success btn-sm" (click)="OpenBarcodeScan()">เปิดแสกน</button>
                         <button class="btn btn-danger btn-sm" (click)="CloseBarcodeScan()">ปิดแสกน</button>
 
-                        <barcode-scanner-livestream
-                        type="code_128"
+                        <!-- <barcode-scanner-livestream
+                        type="code_39"
                         (valueChanges)="onValueChanges($event)"
                         (started)="(onStarted)"
                       ></barcode-scanner-livestream>
                       <div [hidden]="!barcodeValue">
                         {{ barcodeValue }}
-                      </div>
+                      </div> -->
 
 
                     <form [formGroup]="FormOne"> 
