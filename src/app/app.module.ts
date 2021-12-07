@@ -13,6 +13,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { BarcodeScannerLivestreamModule } from 'ngx-barcode-scanner';
 import { FardashboardComponent } from './core/component/fardashboard/fardashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CanclequeueComponent } from './core/component/canclequeue/canclequeue.component';
+import { ManagetruckComponent } from './core/component/managetruck/managetruck.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MainboardComponent,
     SidebarComponent,
     FardashboardComponent,
+    CanclequeueComponent,
+    ManagetruckComponent,
   ],
   imports: [
     BrowserModule,

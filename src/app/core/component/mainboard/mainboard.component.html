@@ -26,7 +26,7 @@
                             <span class="input-group-text" id="basic-addon1">
                             Barcode คิวอ้อย
                             </span>
-                            <input type="text"  formControlName="zeroqrcodedata" class="form-control" [value]="barcode">
+                            <input type="text"  formControlName="zeroqrcodedata" class="form-control" (keypress)="Loadqonline(barcodeValue);">
                             
                             <!-- <input type="text" (window:keypress)="onKey($event)"  autofocus  class="form-control"/> -->
                             

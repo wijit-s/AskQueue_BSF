@@ -1,0 +1,44 @@
+<div class="wrapper">
+    <app-sidebar></app-sidebar>
+    <div class="main-panel">
+        <app-header></app-header>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                           <div class="card-header bg-danger">ยกเลิกคิวที่จอง</div> 
+                           <div class="card-body">
+                               <table class="table table-sm">
+                                   <thead>
+                                       <th scope="col"> เลข Barcode</th>
+                                       <th scope="col"> รหัสชาวไร่ </th>
+                                       <th scope="col"> ชื่อ-สกุล </th>
+                                       <th scope="col">เลขทะเบียนรถ</th>
+                                       <th scope="col">ยกเลิก</th>
+                                   </thead>
+                                   <tbody>
+                                       <tr *ngFor="let item of qlist">
+                                           <td>{{item.truck_q}}</td>
+                                           <td>{{item.FMCODE_b1}}</td>
+                                           <td>{{item.fmname}}</td>
+                                           <td>{{item.REGTRUCK}}</td>
+                                           <td> 
+                                               <button class="btn btn-sm btn-danger" (click)="CancleQue(item.truck_q)">
+                                                <i class="material-icons">close</i>
+                                                </button>
+                                            </td>
+                                       </tr>
+                                   </tbody>
+                               </table>
+                           </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>    
+        <app-footer></app-footer>
+
+    </div>
+</div>

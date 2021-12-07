@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import axios from 'axios';
 import { BarcodeScannerLivestreamComponent } from 'ngx-barcode-scanner';
-
+declare var $ :any;
 @Component({
   selector: 'app-fardashboard',
   templateUrl: './fardashboard.component.html',
@@ -30,6 +30,7 @@ export class FardashboardComponent implements OnInit {
   ngOnInit(): void {
     this.Loadfarmer21();
     this.LoadTruckdata();
+    this.LoadsortQueue();
   }
 
   OpenBarcodeScan() {
@@ -64,10 +65,12 @@ export class FardashboardComponent implements OnInit {
   // โหลดข้อมูลจาก QRCODE
   farqrdata:any;
   Loadqonline(code:any){
-    // let code = this.FormOne.get("zeroqrcodedata")?.value;
-    axios.get("https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/v_Printcard_w?truck_q='"+ code +"'")
+    let barcode = this.FormOne.get("zeroqrcodedata")?.value;
+    axios.get("https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/v_Printcard_w?truck_q='"+ barcode +"'")
     .then(res => {
      this.farqrdata = res.data.recordset;
+     this.FormOne.get('onefmcode')?.setValue(this.farqrdata[0].fmcode);
+     console.log(this.farqrdata);
     })
     .catch(err => { throw(err)})
   }
@@ -79,25 +82,38 @@ export class FardashboardComponent implements OnInit {
 
   // แก้ไขคิว
   UpdateQueue(){
-    let url = "https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/update_qcard_in_q_v4?q_id=1"
-    +"&fmcode=0064000345"
-    +"&truck_no=1111100013"
+    
+    let url = "https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/update_qcard_in_q_v4?q_id=" + (this.forwardqrun + 1)
+    +"&fmcode=" + (this.FormOne.get('onefmcode')?.value).slice(0,10) 
+    +"&truck_no=" + (this.FormOne.get('twotruckreg')?.value).slice(0,10) 
     +"&print_q=2"
     +"&userlogin='" + this.userdata[0].supcode +"'"
     +"&truck_q=" + this.barcode;
-    axios.post(url).then(res =>{
-      if(res.data.rowAffected[0] == 1){
+
+    console.log(url);
+    if(confirm('ต้องการบันทึกรายการ หรือไม่ ?')==true){
+      
+      axios.post(url).then(res =>{
+      if(res.data.rowsAffected[0] == 1){
+        this.SendsortQueue(); 
         alert("บันทึกข้อมูลคิวแล้ว");
+        $('#showqueue').modal('show');
+        this.FormOne.reset();
+        this.farqrdata = null;
       }
-      else { alert("!!กรุณาลองใหม่ บันทึกรายการไม่สำเร็จ!!") }
-    }).catch(err => {throw(err)});
+      else if (res.data.rowsAffected[0] == 0)
+      { alert("!!กรุณาลองใหม่ บันทึกรายการไม่สำเร็จ!!"); }
+      else if (res.data.code)
+      { alert("!!กรุณาลองใหม่ บันทึกรายการไม่สำเร็จ!!") }
+      }).catch(err => {throw(err)});
+    }
+    else {
+      alert("ยกเลิกรายการแล้ว");
+      this.FormOne.reset();
+    }
   }
 
-  // โหลดข้อมูลทะเบียนรถอ้อยทางไกล
-  fartruckdata:any;
-  LoadTruckFarAway(){
 
-  }
 
    // โหลดข้อมูลรถบันทุก
    truckdata:any;
@@ -123,7 +139,8 @@ export class FardashboardComponent implements OnInit {
   // ส่งลำดับคิว 
   SendsortQueue(){
     let nextque = this.forwardqrun + 1;
-    let url = "https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/update_qonline_w?qf2_run="+nextque+"&timechange=getdate()";
+    let url = "https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/update_qonline_w?qf2_run="+nextque+"&timechange=getdate();";
+    // console.log(url);
     axios.post(url)
     .then(res =>{
       if(res.data.rowsAffected[0] == 1){
@@ -134,5 +151,14 @@ export class FardashboardComponent implements OnInit {
       }
     }).catch(err => {throw(err)});
   }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.farmerzone21 = null;
+    this.farqrdata = null;
+  }
 }
+
+
 

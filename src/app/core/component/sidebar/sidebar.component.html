@@ -11,10 +11,22 @@
   </div>
   <div class="sidebar-wrapper">
     <ul class="nav">
-      <li class="nav-item active  ">
-        <a class="nav-link" href="./dashboard.html">
+      <li [ngClass]="{'nav-item':true, 'active':active==1 }"  (click)="goMainBoard();">
+        <a class="nav-link" >
           <i class="material-icons">dashboard</i>
           <p>Dashboard</p>
+        </a>
+      </li>
+      <li [ngClass]="{'nav-item':true, 'active':active==2 }">
+        <a class="nav-link" (click)="goCancleQueue();">
+          <i class="material-icons">close</i>
+          <p>ยกเลิกคิว</p>
+        </a>
+      </li>
+      <li  [ngClass]="{'nav-item':true, 'active':active==3 }">
+        <a class="nav-link" (click)="goMangetruck();">
+          <i class="material-icons">directions_car</i>
+          <p>รถบรรทุก</p>
         </a>
       </li>
       <!-- <li class="nav-item ">
@@ -23,12 +35,7 @@
           <p>User Profile</p>
         </a>
       </li>
-      <li class="nav-item ">
-        <a class="nav-link" href="./tables.html">
-          <i class="material-icons">content_paste</i>
-          <p>Table List</p>
-        </a>
-      </li>
+      
       <li class="nav-item ">
         <a class="nav-link" href="./typography.html">
           <i class="material-icons">library_books</i>

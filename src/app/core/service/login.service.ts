@@ -12,4 +12,9 @@ export class LoginService {
     var data:any = localStorage.getItem('userdata');
     return JSON.parse(data);
   }
+
+  LoadActiveside(){
+    var data:any = localStorage.getItem('active');
+    return JSON.parse(data);
+  }
 }

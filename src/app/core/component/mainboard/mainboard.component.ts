@@ -66,13 +66,15 @@ export class MainboardComponent implements OnInit {
   // โหลดข้อมูลจาก QRCODE
   farqrdata:any;
   Loadqonline(code:any){
-    // let code = this.FormOne.get("zeroqrcodedata")?.value;
-    axios.get("https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/v_Printcard_w?truck_q='"+ code +"'")
+    let barcode = this.FormOne.get("zeroqrcodedata")?.value;
+    axios.get("https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/v_Printcard_w?truck_q='"+ barcode +"'")
     .then(res => {
      this.farqrdata = res.data.recordset;
     })
     .catch(err => { throw(err)})
   }
+
+
   barcode:any;
   onKey(event: any) {
     this.barcode=event.target.value;

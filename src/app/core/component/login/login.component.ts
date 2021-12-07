@@ -36,8 +36,6 @@ export class LoginComponent implements OnInit {
         this.username = data[0].username;
         this.password = data[0].password;
         this.userlevel = data[0].userlevel;
-        // console.log('DATA From SQL:.=>', data);   
-        // this.alldata = data;
         console.log(data[0]);
         localStorage.setItem('userdata', JSON.stringify(data));
       })
@@ -48,12 +46,13 @@ export class LoginComponent implements OnInit {
     let user = this.login.get('username')?.value;
     let password = this.login.get('password')?.value;
     console.log(this.login.value);
+    localStorage.setItem('active', JSON.stringify(1));
     if (user == null && password == null) {alert('กรุณากรอกชื่อผู้ใช้งานและรหัสผ่าน');}
     else if (user == null || user== ''){alert('กรุณากรอกชื่อผู้ใช้งาน');}
     else if (password == null || password == ''){alert('กรุณากรอกรหัสผ่าน');}
     else if (password !== this.password) {alert("รหัสผ่าน ไม่ถูกต้อง!");}
-    else if (this.userlevel == 23){ this.gokeepdata(); this.router.navigateByUrl("/fardashboard"); }
-    else if (this.userlevel == 22){ this.gokeepdata(); this.router.navigateByUrl("/maindashboard"); }
+    else if (this.userlevel == 71){ this.gokeepdata(); this.router.navigateByUrl("/fardashboard"); }
+    else if (this.userlevel == 70){ this.gokeepdata(); this.router.navigateByUrl("/maindashboard"); }
   }
 
    // ค้นหาา Ip Address
