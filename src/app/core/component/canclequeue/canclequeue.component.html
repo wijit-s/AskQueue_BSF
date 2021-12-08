@@ -1,3 +1,4 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "false"><p style="color: white" > Loading... </p></ngx-spinner>
 <div class="wrapper">
     <app-sidebar></app-sidebar>
     <div class="main-panel">
@@ -7,10 +8,13 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
-                           <div class="card-header bg-danger">ยกเลิกคิวที่จอง</div> 
+                           <div class="card-header bg-danger">ยกเลิกคิวที่จอง
+                               <button class="btn btn-info" (click)="LoadqueList();">โหลดข้อมูลใหม่</button>
+                           </div> 
                            <div class="card-body">
                                <table class="table table-sm">
                                    <thead>
+                                        <th scope="col"> เลขคิว</th>
                                        <th scope="col"> เลข Barcode</th>
                                        <th scope="col"> รหัสชาวไร่ </th>
                                        <th scope="col"> ชื่อ-สกุล </th>
@@ -19,6 +23,7 @@
                                    </thead>
                                    <tbody>
                                        <tr *ngFor="let item of qlist">
+                                        <td>{{item.q_id}}</td>
                                            <td>{{item.truck_q}}</td>
                                            <td>{{item.FMCODE_b1}}</td>
                                            <td>{{item.fmname}}</td>

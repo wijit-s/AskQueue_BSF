@@ -3,6 +3,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import axios from 'axios';
 import { BarcodeScannerLivestreamComponent } from 'ngx-barcode-scanner';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var $ :any;
 @Component({
   selector: 'app-fardashboard',
@@ -18,8 +20,13 @@ export class FardashboardComponent implements OnInit {
   barcode_type="code_128"
   userdata:any;
   FormOne:FormGroup;
-  constructor(private userlogin:LoginService) {
+  constructor(private userlogin:LoginService,private spinner: NgxSpinnerService,private router:Router) {
+
     this.userdata = this.userlogin.Loadlocal();
+    if (this.userdata == null || this.userdata == undefined || this.userdata == [])
+    {
+      this.router.navigateByUrl("/login");
+    }
     this.FormOne = new FormGroup({
       zeroqrcodedata:new FormControl(),
       onefmcode:new FormControl(),
@@ -73,6 +80,7 @@ export class FardashboardComponent implements OnInit {
      console.log(this.farqrdata);
     })
     .catch(err => { throw(err)})
+    this.LoadsortQueue();
   }
 
   barcode:any;
@@ -80,17 +88,35 @@ export class FardashboardComponent implements OnInit {
     this.barcode=event.target.value;
   }
 
-  // แก้ไขคิว
+   // โหลดข้อมูลรถบันทุก
+   truckdata:any;
+   LoadTruckdata(){
+     let url = "https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/select_v_Truck_w?f12=1";
+     axios.get(url)
+     .then(res =>{
+      this.truckdata = (res.data.recordset);
+     }).catch(err => { throw(err)})
+   }
+
+
+  // แก้ไขคิวอัพเดทคิวอ้อยทางไกล
   UpdateQueue(){
+    this.LoadsortQueue();
+    let fmcode = (this.FormOne.get('onefmcode')?.value).slice(0,10);
+    let regtruck = (this.FormOne.get('twotruckreg')?.value).slice(0,10);
     
-    let url = "https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/update_qcard_in_q_v4?q_id=" + (this.forwardqrun + 1)
-    +"&fmcode=" + (this.FormOne.get('onefmcode')?.value).slice(0,10) 
-    +"&truck_no=" + (this.FormOne.get('twotruckreg')?.value).slice(0,10) 
+    
+    if (fmcode =='' || fmcode == undefined || fmcode == null){ alert("กรุณาเลือกชาวไร่ หรือ ระบุโควต้า");}
+    else if (regtruck =='' || regtruck == undefined || regtruck == null){ alert("กรุณาเลือกทะเบียนรถ หรือ ระบุทะเบียนรถ");}
+    else {
+      let url = "https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/update_qcard_in_q_v4?q_id=" + (this.forwardqrun + 1)
+    +"&fmcode=" +  fmcode
+    +"&truck_no=" + regtruck
     +"&print_q=2"
     +"&userlogin='" + this.userdata[0].supcode +"'"
     +"&truck_q=" + this.barcode;
-
-    console.log(url);
+    
+      console.log(url);
     if(confirm('ต้องการบันทึกรายการ หรือไม่ ?')==true){
       
       axios.post(url).then(res =>{
@@ -111,28 +137,23 @@ export class FardashboardComponent implements OnInit {
       alert("ยกเลิกรายการแล้ว");
       this.FormOne.reset();
     }
+    }
+    
   }
 
 
 
-   // โหลดข้อมูลรถบันทุก
-   truckdata:any;
-   LoadTruckdata(){
-     let url = "https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/select_v_Truck_w?f12=1";
-     axios.get(url)
-     .then(res =>{
-      this.truckdata = (res.data.recordset);
-      //  console.log(data); .filter((el:any) => el.SUPZONE == 21 || el.SUPZONE == 22 || el.SUPZONE == 23)
-     }).catch(err => { throw(err)})
-   }
+  
 
   //  โหลดลำดับคิว
   forwardqrun:any;
   LoadsortQueue(){
     axios.get("https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/select_qonline")
     .then(res =>{
+      this.spinner.show();
      let data = res.data.recordset;
      this.forwardqrun = data[0].qf2_run;
+     this.spinner.hide();
     }).catch(err => {throw(err)});
   }
 
@@ -145,6 +166,7 @@ export class FardashboardComponent implements OnInit {
     .then(res =>{
       if(res.data.rowsAffected[0] == 1){
         console.log("q update");
+        // this.LoadsortQueue();
       }
       else {
         console.log("q don't update");

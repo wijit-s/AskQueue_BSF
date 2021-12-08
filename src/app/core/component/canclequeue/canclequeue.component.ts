@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { LoginService } from '../../service/login.service';
-
+import { NgxSpinnerService } from "ngx-spinner"; 
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-canclequeue',
   templateUrl: './canclequeue.component.html',
@@ -10,11 +11,16 @@ import { LoginService } from '../../service/login.service';
 export class CanclequeueComponent implements OnInit {
 
   userdata:any;
-  constructor(private userlogin:LoginService) { 
+  constructor(private userlogin:LoginService,private spinner: NgxSpinnerService,private router:Router) { 
     this.userdata = this.userlogin.Loadlocal();
+    if (this.userdata == null || this.userdata == undefined || this.userdata == [])
+    {
+      this.router.navigateByUrl("/login");
+    }
   }
 
   ngOnInit(): void {
+    this.LoadqueList();
   }
 
 
@@ -23,7 +29,10 @@ export class CanclequeueComponent implements OnInit {
   LoadqueList(){
     axios.get("https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/select_v_qcard6465_w?qtype=6&print_q=2")
     .then(res =>
-      this.qlist = res.data.recordset )
+      {this.spinner.show();
+      this.qlist = res.data.recordset;
+      this.spinner.hide();
+    })
     .catch(err => {throw err})
   }
 
