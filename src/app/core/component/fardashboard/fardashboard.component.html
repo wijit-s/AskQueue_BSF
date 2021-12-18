@@ -28,7 +28,7 @@
                             <span class="input-group-text" id="basic-addon1">
                             Barcode คิวอ้อยทางไกล
                             </span>
-                            <input type="text" formControlName="zeroqrcodedata" [(ngModel)]="barcode" class="form-control" (change)="Loadqonline(barcode)">
+                            <input type="text" maxlength="10" formControlName="zeroqrcodedata" [(ngModel)]="barcode" class="form-control" (change)="Loadqonline(barcode)">
                             
                             <!-- <input type="text" (window:keypress)="onKey($event)"  autofocus  class="form-control"/> -->
                             
@@ -50,7 +50,9 @@
                             <span class="input-group-text">
                                 2.ทะเบียนรถ :
                             </span>
-                            <input type="text" class="form-control" formControlName="twotruckreg" list="Truckdata">
+                            <input type="text" class="form-control" formControlName="twotruckreg" 
+                            placeholder="เลือกทะเบียนรถ รหัสรถ 10 หลัก"
+                            list="Truckdata">
                             <datalist id="Truckdata">
                                 <option *ngFor="let item of truckdata">{{item.TRUCK_NO}} {{item.REGTRUCK}}</option>
                             </datalist> 

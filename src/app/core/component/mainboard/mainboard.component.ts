@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import axios from 'axios';
 
 import { BarcodeScannerLivestreamComponent } from "ngx-barcode-scanner";
@@ -19,8 +20,9 @@ export class MainboardComponent implements OnInit {
 
 
   FormOne:FormGroup;
-  constructor(private auth:LoginService) {
+  constructor(private auth:LoginService,private router:Router) {
     let udata = this.auth.Loadlocal();
+    if (udata == null ||udata == undefined ||udata == []){ this.router.navigateByUrl("/login")  }
     this.FormOne = new FormGroup({
       zeroqrcodedata:new FormControl(),
       onefmcode:new FormControl(),

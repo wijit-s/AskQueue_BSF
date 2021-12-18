@@ -23,6 +23,7 @@ export class FardashboardComponent implements OnInit {
   constructor(private userlogin:LoginService,private spinner: NgxSpinnerService,private router:Router) {
 
     this.userdata = this.userlogin.Loadlocal();
+    console.log(this.userdata)
     if (this.userdata == null || this.userdata == undefined || this.userdata == [])
     {
       this.router.navigateByUrl("/login");
@@ -71,12 +72,20 @@ export class FardashboardComponent implements OnInit {
 
   // โหลดข้อมูลจาก QRCODE
   farqrdata:any;
+  checkprintQue:any;
   Loadqonline(code:any){
     let barcode = this.FormOne.get("zeroqrcodedata")?.value;
     axios.get("https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/v_Printcard_w?truck_q='"+ barcode +"'")
     .then(res => {
      this.farqrdata = res.data.recordset;
      this.FormOne.get('onefmcode')?.setValue(this.farqrdata[0].fmcode);
+      this.checkprintQue = this.farqrdata[0].print_q;
+      if (parseInt(this.checkprintQue) != 0)
+      { alert("!!คิวถูกแจ้งไปแล้ว ไม่สามารถใช้คิวซ้ำได้!!1"); 
+      this.barcode =''; 
+      this.farqrdata = ''; 
+      this.FormOne.reset(); 
+    }
      console.log(this.farqrdata);
     })
     .catch(err => { throw(err)})
@@ -102,42 +111,49 @@ export class FardashboardComponent implements OnInit {
   // แก้ไขคิวอัพเดทคิวอ้อยทางไกล
   UpdateQueue(){
     this.LoadsortQueue();
-    let fmcode = (this.FormOne.get('onefmcode')?.value).slice(0,10);
-    let regtruck = (this.FormOne.get('twotruckreg')?.value).slice(0,10);
-    
-    
-    if (fmcode =='' || fmcode == undefined || fmcode == null){ alert("กรุณาเลือกชาวไร่ หรือ ระบุโควต้า");}
-    else if (regtruck =='' || regtruck == undefined || regtruck == null){ alert("กรุณาเลือกทะเบียนรถ หรือ ระบุทะเบียนรถ");}
-    else {
+    setTimeout(() => {
+      let fmcode = (this.FormOne.get('onefmcode')?.value);
+      let regtruck = (this.FormOne.get('twotruckreg')?.value).slice(0,10);
+      let relength = regtruck.length;
+      let ckregtruck = (this.FormOne.get('twotruckreg')?.value).slice(0,4);
+      if (this.checkprintQue != 0){ alert("!!คิวถูกแจ้งไปแล้ว ไม่สามารถใช้คิวซ้ำได้!!"); }
+      else if (fmcode =='' || fmcode == undefined || fmcode == null){ alert("กรุณาเลือกชาวไร่ หรือ ระบุโควต้า");}
+      else if (ckregtruck != '1111'){ alert('!!! กรุณาตรวจสอบทะเบียนรถ !!!! ต้องไม่เหมือนกับ Barcode หรือ โควต้าชาวไร่')}
+      else if (parseInt(relength) < 10) {alert("กรุณาเลือกหมายเลข 10 หลัก ตามด้วยทะเบียน");}
+      else if (regtruck.trim() =='' || regtruck.trim() == undefined || regtruck.trim() == null){ alert("กรุณาเลือกทะเบียนรถ หรือ ระบุทะเบียนรถ");}
+      else {
+        fmcode = fmcode.slice(0,10);
       let url = "https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/update_qcard_in_q_v4?q_id=" + (this.forwardqrun + 1)
-    +"&fmcode=" +  fmcode
-    +"&truck_no=" + regtruck
-    +"&print_q=2"
-    +"&userlogin='" + this.userdata[0].supcode +"'"
-    +"&truck_q=" + this.barcode;
-    
-      console.log(url);
-    if(confirm('ต้องการบันทึกรายการ หรือไม่ ?')==true){
+      +"&fmcode=" +  fmcode
+      +"&truck_no=" + regtruck
+      +"&print_q=2"
+      +"&userlogin='" + this.userdata[0].supcode +"'"
+      +"&truck_q=" + this.barcode;
       
-      axios.post(url).then(res =>{
-      if(res.data.rowsAffected[0] == 1){
-        this.SendsortQueue(); 
-        alert("บันทึกข้อมูลคิวแล้ว");
-        $('#showqueue').modal('show');
-        this.FormOne.reset();
-        this.farqrdata = null;
+        console.log(url);
+      if(confirm('ต้องการบันทึกรายการ หรือไม่ ?')==true){
+        
+        axios.post(url).then(res =>{
+        if(res.data.rowsAffected[0] == 1){
+          alert("บันทึกข้อมูลคิวแล้ว");
+          this.SendsortQueue(); 
+          $('#showqueue').modal('show');
+          this.FormOne.reset();
+          this.farqrdata = null;
+        }
+        else if (res.data.rowsAffected[0] == 0)
+        { alert("!!กรุณาลองใหม่ บันทึกรายการไม่สำเร็จ!!"); }
+        else if (res.data.code)
+        { alert("!!กรุณาลองใหม่ บันทึกรายการไม่สำเร็จ!!") }
+        }).catch(err => {throw(err)});
       }
-      else if (res.data.rowsAffected[0] == 0)
-      { alert("!!กรุณาลองใหม่ บันทึกรายการไม่สำเร็จ!!"); }
-      else if (res.data.code)
-      { alert("!!กรุณาลองใหม่ บันทึกรายการไม่สำเร็จ!!") }
-      }).catch(err => {throw(err)});
-    }
-    else {
-      alert("ยกเลิกรายการแล้ว");
-      this.FormOne.reset();
-    }
-    }
+      else {
+        alert("ยกเลิกรายการแล้ว");
+        this.FormOne.reset();
+      }
+      }
+    }, 1500);
+  
     
   }
 
@@ -148,9 +164,9 @@ export class FardashboardComponent implements OnInit {
   //  โหลดลำดับคิว
   forwardqrun:any;
   LoadsortQueue(){
+    this.spinner.show();
     axios.get("https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/select_qonline")
     .then(res =>{
-      this.spinner.show();
      let data = res.data.recordset;
      this.forwardqrun = data[0].qf2_run;
      this.spinner.hide();
@@ -166,7 +182,6 @@ export class FardashboardComponent implements OnInit {
     .then(res =>{
       if(res.data.rowsAffected[0] == 1){
         console.log("q update");
-        // this.LoadsortQueue();
       }
       else {
         console.log("q don't update");
