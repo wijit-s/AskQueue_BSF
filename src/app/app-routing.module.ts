@@ -9,7 +9,7 @@ import { CanclequeueComponent } from './core/component/canclequeue/canclequeue.c
 const routes: Routes = [
   { path:'cancleQ', component: CanclequeueComponent },
   { path:'fardashboard', component:FardashboardComponent },
-  { path:'maindashboard', component:MainboardComponent },
+  // { path:'maindashboard', component:MainboardComponent },
   { path:'managestruck', component: ManagetruckComponent},
   { path:'login', component:LoginComponent },
   { path: '**', redirectTo: 'login', pathMatch: 'full'}

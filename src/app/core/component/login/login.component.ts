@@ -51,8 +51,8 @@ export class LoginComponent implements OnInit {
     else if (user == null || user== ''){alert('กรุณากรอกชื่อผู้ใช้งาน');}
     else if (password == null || password == ''){alert('กรุณากรอกรหัสผ่าน');}
     else if (password !== this.password) {alert("รหัสผ่าน ไม่ถูกต้อง!");}
-    else if (this.userlevel == 71){ this.gokeepdata(); this.router.navigateByUrl("/fardashboard"); }
-    else if (this.userlevel == 70){ this.gokeepdata(); this.router.navigateByUrl("/maindashboard"); }
+    else if (this.userlevel == 71 || this.userlevel == 70){ this.gokeepdata(); this.router.navigateByUrl("/fardashboard"); }
+    // else if (this.userlevel == 70){ this.gokeepdata(); this.router.navigateByUrl("/maindashboard"); }
   }
 
    // ค้นหาา Ip Address
