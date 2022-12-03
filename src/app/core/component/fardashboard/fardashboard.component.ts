@@ -116,17 +116,18 @@ export class FardashboardComponent implements OnInit {
       let regtruck = (this.FormOne.get('twotruckreg')?.value).slice(0,10);
       let relength = regtruck.length;
       let ckregtruck = (this.FormOne.get('twotruckreg')?.value).slice(0,4);
-      if (this.checkprintQue != 0){ alert("!!คิวถูกแจ้งไปแล้ว ไม่สามารถใช้คิวซ้ำได้!!"); }
+      if (this.barcode.length <10){ alert("!!กรุณาแสกน บาร์โคด 10 หลัก ที่ขึ้นต้น ด้วย 71 หรือ 72 !!"); }
+      else if (this.checkprintQue != 0){ alert("!!คิวถูกแจ้งไปแล้ว ไม่สามารถใช้คิวซ้ำได้!!"); }
       else if (fmcode =='' || fmcode == undefined || fmcode == null){ alert("กรุณาเลือกชาวไร่ หรือ ระบุโควต้า");}
       else if (ckregtruck != '1111'){ alert('!!! กรุณาตรวจสอบทะเบียนรถ !!!! ต้องไม่เหมือนกับ Barcode หรือ โควต้าชาวไร่')}
-      else if (parseInt(relength) < 10) {alert("กรุณาเลือกหมายเลข 10 หลัก ตามด้วยทะเบียน");}
+      else if (parseInt(relength) < 10) {alert("กรุณาเลือกรหัสรถบรรทุก 10 หลัก ตามด้วยทะเบียน");}
       else if (regtruck.trim() =='' || regtruck.trim() == undefined || regtruck.trim() == null){ alert("กรุณาเลือกทะเบียนรถ หรือ ระบุทะเบียนรถ");}
       else {
         fmcode = fmcode.slice(0,10);
       let url = "https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/update_qcard_in_q_v4?q_id=" + (this.forwardqrun + 1)
       +"&fmcode=" +  fmcode
       +"&truck_no=" + regtruck
-      +"&print_q=2"
+      +"&print_q=1"
       +"&userlogin='" + this.userdata[0].supcode +"'"
       +"&truck_q=" + this.barcode;
       

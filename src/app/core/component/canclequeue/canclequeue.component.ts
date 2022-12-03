@@ -27,7 +27,7 @@ export class CanclequeueComponent implements OnInit {
   // โหลด Q list
   qlist:any;
   LoadqueList(){
-    axios.get("https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/select_v_qcard6465_w?qtype=6&print_q=2")
+    axios.get("https://asia-southeast2-brr-farmluck.cloudfunctions.net/dbcps/select_s_f_w?s=*&f=[dbQBRD].[dbo].[v_qcard6566]&w=[Qtype]=6 and[print_q]in(1,2)")
     .then(res =>
       {this.spinner.show();
       this.qlist = res.data.recordset;
