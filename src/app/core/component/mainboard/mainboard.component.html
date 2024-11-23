@@ -11,90 +11,89 @@
                         <button class="btn btn-success btn-sm" (click)="OpenBarcodeScan()">เปิดแสกน</button>
                         <button class="btn btn-danger btn-sm" (click)="CloseBarcodeScan()">ปิดแสกน</button>
 
-                        <barcode-scanner-livestream
-                        type="code_128"
-                        (valueChanges)="onValueChanges($event)"
-                        (started)="(onStarted)"
-                      ></barcode-scanner-livestream>
-                      <div [hidden]="!barcodeValue">
-                        {{ barcodeValue }}
-                      </div>
-
-
-                    <form [formGroup]="FormOne"> 
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">
-                            Barcode คิวอ้อย
-                            </span>
-                            <input type="text"  formControlName="zeroqrcodedata" class="form-control" (keypress)="Loadqonline(barcodeValue);">
-                            
-                            <!-- <input type="text" (window:keypress)="onKey($event)"  autofocus  class="form-control"/> -->
-                            
-                        
-                        </div>
-                        <div class="input-group mb-3">
-                        <!-- <p>barcode: {{ barcode }}</p>  -->
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">
-                                1.โควต้าชาวไร่ :
-                            </span>
-                            <input type="text" list="farmer21" class="form-control" formControlName="onefmcode">
-                            <datalist id="farmer21">
-                                <option *ngFor="let item of farmerzone21">{{item.fmcode_b1}} {{item.fmname}}</option>
-                            </datalist>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">
-                                2.ทะเบียนรถ :
-                            </span>
-                            <input type="text" class="form-control" formControlName="twotruckreg"> 
+                        <barcode-scanner-livestream type="code_128"
+                            (valueChanges)="onValueChanges($event)"></barcode-scanner-livestream>
+                        <div [hidden]="!barcodeValue">
+                            {{ barcodeValue }}
                         </div>
 
-                        <div class="input-group mb-3">
-                            <button class="btn btn-info">บันทึก</button>
-                        </div>
-                    </form>
+
+                        <form [formGroup]="FormOne">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">
+                                    Barcode คิวอ้อย
+                                </span>
+                                <input type="text" formControlName="zeroqrcodedata" class="form-control"
+                                    (keypress)="Loadqonline(barcodeValue);">
+
+                                <!-- <input type="text" (window:keypress)="onKey($event)"  autofocus  class="form-control"/> -->
+
+
+                            </div>
+                            <div class="input-group mb-3">
+                                <!-- <p>barcode: {{ barcode }}</p>  -->
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    1.โควตาชาวไร่ :
+                                </span>
+                                <input type="text" list="farmer21" class="form-control" formControlName="onefmcode">
+                                <datalist id="farmer21">
+                                    <option *ngFor="let item of farmerzone21">{{item.fmcode_b1}} {{item.fmname}}
+                                    </option>
+                                </datalist>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    2.ทะเบียนรถ :
+                                </span>
+                                <input type="text" class="form-control" formControlName="twotruckreg">
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <button class="btn btn-info">บันทึก</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-               
+
                 <div class="card">
-                <div class="card-body">
-                    <table class="table" *ngFor="let item of farqrdata">
-                        <tr>
-                            <td> ใบคิว</td>
-                            <td>{{item.truck_q}} </td>
-                        </tr>
-                        <tr>
-                              <td> รถทะเบียน</td>
-                              <td>{{item.REGTRUCK}} </td>
-                          </tr>
-                          <tr>
-                              <td> คิว</td>
-                              <td>{{item.qdesc}} </td>
-                          </tr>
-                          <tr>
-                              <td> คิวที่</td>
-                              <td>{{item.q_id}} </td>
-                          </tr>
-                          <tr>
-                              <td> เจ้าของอ้อย</td>
-                              <td>{{item.fmname}} </td>
-                          </tr>
-                          <tr>
-                              <td> วันเวลาแจ้งคิว</td>
-                              <td>{{item.update_date_th}} </td>
-                          </tr>
-                          <tr>
-                              <td> ล็อคจอดที่</td>
-                              <td>{{item.truck_q}} </td>
-                          </tr>
-                    </table>
-                </div>
+                    <div class="card-body">
+                        <table class="table" *ngFor="let item of farqrdata">
+                            <tr>
+                                <td> ใบคิว</td>
+                                <td>{{item.truck_q}} </td>
+                            </tr>
+                            <tr>
+                                <td> รถทะเบียน</td>
+                                <td>{{item.REGTRUCK}} </td>
+                            </tr>
+                            <tr>
+                                <td> คิว</td>
+                                <td>{{item.qdesc}} </td>
+                            </tr>
+                            <tr>
+                                <td> คิวที่</td>
+                                <td>{{item.q_id}} </td>
+                            </tr>
+                            <tr>
+                                <td> เจ้าของอ้อย</td>
+                                <td>{{item.fmname}} </td>
+                            </tr>
+                            <tr>
+                                <td> วันเวลาแจ้งคิว</td>
+                                <td>{{item.update_date_th}} </td>
+                            </tr>
+                            <tr>
+                                <td> ล็อคจอดที่</td>
+                                <td>{{item.truck_q}} </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
             <!-- container-fluid -->
-        </div>    
+        </div>
         <app-footer></app-footer>
 
     </div>

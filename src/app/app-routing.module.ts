@@ -7,16 +7,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { CanclequeueComponent } from './core/component/canclequeue/canclequeue.component';
 
 const routes: Routes = [
-  { path:'cancleQ', component: CanclequeueComponent },
-  { path:'fardashboard', component:FardashboardComponent },
+  { path: 'cancleQ', component: CanclequeueComponent },
+  { path: 'fardashboard', component: FardashboardComponent },
   // { path:'maindashboard', component:MainboardComponent },
-  { path:'managestruck', component: ManagetruckComponent},
-  { path:'login', component:LoginComponent },
-  { path: '**', redirectTo: 'login', pathMatch: 'full'}
+  { path: 'managestruck', component: ManagetruckComponent },
+  { path: 'login', component: LoginComponent },
+  { path: '**', redirectTo: 'login', pathMatch: 'full' }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,{
+  imports: [RouterModule.forRoot(routes, {
     useHash: true,
     anchorScrolling: "enabled",
     onSameUrlNavigation: 'reload',

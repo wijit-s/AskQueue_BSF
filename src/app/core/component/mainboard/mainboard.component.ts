@@ -15,22 +15,22 @@ export class MainboardComponent implements OnInit {
 
   @ViewChild(BarcodeScannerLivestreamComponent)
   barcodeScanner: BarcodeScannerLivestreamComponent = new BarcodeScannerLivestreamComponent;
-  barcodeValue:any;
+  barcodeValue: any;
 
 
 
-  FormOne:FormGroup;
-  constructor(private auth:LoginService,private router:Router) {
+  FormOne: FormGroup;
+  constructor(private auth: LoginService, private router: Router) {
     let udata = this.auth.Loadlocal();
-    if (udata == null ||udata == undefined ||udata == []){ this.router.navigateByUrl("/login")  }
+    if (udata == null || udata == undefined) { this.router.navigateByUrl("/login") }
     this.FormOne = new FormGroup({
-      zeroqrcodedata:new FormControl(),
-      onefmcode:new FormControl(),
-      twotruckreg:new FormControl(),
+      zeroqrcodedata: new FormControl(),
+      onefmcode: new FormControl(),
+      twotruckreg: new FormControl(),
     });
 
 
-   }
+  }
 
   ngOnInit(): void {
     this.Loadfarmer21();
@@ -44,42 +44,42 @@ export class MainboardComponent implements OnInit {
     this.barcodeScanner.stop();
   }
 
-  onValueChanges(result:any) {
+  onValueChanges(result: any) {
     this.barcodeValue = result.codeResult.code;
     this.barcode = result.codeResult.code
     this.Loadqonline(this.barcodeValue);
   }
 
-  onStarted(started:any) {
+  onStarted(started: any) {
     console.log(started);
   }
 
 
   // โหลดข้อมูลชาวไร่
-  farmerzone21:any;
-  Loadfarmer21(){
+  farmerzone21: any;
+  Loadfarmer21() {
     axios.get("https://asia-southeast2-brr-farmluck.cloudfunctions.net/dbcps/v_farmer_basic_w?supzone='21'")
-    .then(res => {
-     this.farmerzone21 = res.data.recordset;
-    })
-    .catch(err => { throw(err)})
+      .then(res => {
+        this.farmerzone21 = res.data.recordset;
+      })
+      .catch(err => { throw (err) })
   }
 
   // โหลดข้อมูลจาก QRCODE
-  farqrdata:any;
-  Loadqonline(code:any){
+  farqrdata: any;
+  Loadqonline(code: any) {
     let barcode = this.FormOne.get("zeroqrcodedata")?.value;
-    axios.get("https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/v_Printcard_w?truck_q='"+ barcode +"'")
-    .then(res => {
-     this.farqrdata = res.data.recordset;
-    })
-    .catch(err => { throw(err)})
+    axios.get("https://asia-southeast2-brr-farmluck.cloudfunctions.net/app_farmer/v_Printcard_w?truck_q='" + barcode + "'")
+      .then(res => {
+        this.farqrdata = res.data.recordset;
+      })
+      .catch(err => { throw (err) })
   }
 
 
-  barcode:any;
+  barcode: any;
   onKey(event: any) {
-    this.barcode=event.target.value;
+    this.barcode = event.target.value;
     this.Loadqonline(this.barcode);
   }
 

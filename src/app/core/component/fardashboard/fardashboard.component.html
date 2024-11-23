@@ -1,5 +1,6 @@
-
-<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "false"><p style="color: white" > Loading... </p></ngx-spinner>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="false">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>
 <div class="wrapper">
     <app-sidebar></app-sidebar>
     <div class="main-panel">
@@ -23,91 +24,93 @@
                       </div> -->
 
 
-                    <form [formGroup]="FormOne"> 
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">
-                            Barcode คิวอ้อยทางไกล
-                            </span>
-                            <input autofocus type="text" maxlength="10" formControlName="zeroqrcodedata" [(ngModel)]="barcode" class="form-control" (change)="Loadqonline(barcode)" >
-                            
-                            <!-- <input type="text" (window:keypress)="onKey($event)"  autofocus  class="form-control"/> -->
-                            
-                        
-                        </div>
-                        <div class="input-group mb-3">
-                        <!-- <p>barcode: {{ barcode }}</p>  -->
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">
-                                1.โควต้าชาวไร่ :
-                            </span>
-                            <input type="text" list="farmer21" class="form-control" formControlName="onefmcode">
-                            <datalist id="farmer21">
-                                <option *ngFor="let item of farmerzone21">{{item.fmcode_b1}} {{item.fmname}}</option>
-                            </datalist>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">
-                                2.ทะเบียนรถ :
-                            </span>
-                            <input type="text" class="form-control" formControlName="twotruckreg" 
-                            placeholder="เลือกทะเบียนรถ รหัสรถ 10 หลัก"
-                            list="Truckdata">
-                            <datalist id="Truckdata">
-                                <option *ngFor="let item of truckdata">{{item.TRUCK_NO}} {{item.REGTRUCK}}</option>
-                            </datalist> 
-                        </div>
+                        <form [formGroup]="FormOne">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">
+                                    Barcode คิวอ้อยทางไกล
+                                </span>
+                                <input autofocus type="text" maxlength="10" formControlName="zeroqrcodedata"
+                                    [(ngModel)]="barcode" class="form-control" (change)="Loadqonline(barcode)">
 
-                        <div class="input-group mb-3">
-                            <button class="btn btn-info" (click)="UpdateQueue();">บันทึก</button>
-                        </div>
-                    </form>
+                                <!-- <input type="text" (window:keypress)="onKey($event)"  autofocus  class="form-control"/> -->
+
+
+                            </div>
+                            <div class="input-group mb-3">
+                                <!-- <p>barcode: {{ barcode }}</p>  -->
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    1.โควตาชาวไร่ :
+                                </span>
+                                <input type="text" list="farmer21" class="form-control" formControlName="onefmcode">
+                                <datalist id="farmer21">
+                                    <option *ngFor="let item of farmerzone21">{{item.fmcode_b1}} {{item.fmname}}
+                                    </option>
+                                </datalist>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    2.ทะเบียนรถ :
+                                </span>
+                                <input type="text" class="form-control" formControlName="twotruckreg"
+                                    placeholder="เลือกทะเบียนรถ รหัสรถ 10 หลัก" list="Truckdata">
+                                <datalist id="Truckdata">
+                                    <option *ngFor="let item of truckdata">{{item.TRUCK_NO}} {{item.REGTRUCK}}</option>
+                                </datalist>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <button class="btn btn-info" (click)="UpdateQueue();">บันทึก</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-               
+
                 <div class="card">
-                <div class="card-body">
-                    <table class="table" *ngFor="let item of farqrdata">
-                        <tr>
-                            <td> ใบคิว</td>
-                            <td>{{item.truck_q}} </td>
-                        </tr>
-                        <tr>
-                            <td> เจ้าของอ้อย</td>
-                            <td>{{item.fmname}} </td>
-                        </tr>
-                          <tr>
-                              <td> </td>
-                              <td>{{item.f}} </td>
-                          </tr>
-                          
-                    </table>
-                </div>
+                    <div class="card-body">
+                        <table class="table" *ngFor="let item of farqrdata">
+                            <tr>
+                                <td> ใบคิว</td>
+                                <td>{{item.truck_q}} </td>
+                            </tr>
+                            <tr>
+                                <td> เจ้าของอ้อย</td>
+                                <td>{{item.fmname}} </td>
+                            </tr>
+                            <tr>
+                                <td> </td>
+                                <td>{{item.f}} </td>
+                            </tr>
+
+                        </table>
+                    </div>
                 </div>
             </div>
             <!-- container-fluid -->
-        </div>    
+        </div>
         <app-footer></app-footer>
 
     </div>
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="showqueue" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+<div class="modal fade" id="showqueue" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalScrollableTitle">ลำดับคิว</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">ลำดับคิว</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                นำคิวนี้ไปเขียนบนบัตร : {{this.forwardqrun + 1}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
         </div>
-        <div class="modal-body">
-            นำคิวนี้ไปเขียนบนบัตร : {{this.forwardqrun + 1}}
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
