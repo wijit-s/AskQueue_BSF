@@ -22,11 +22,11 @@ export class CanclequeueComponent implements OnInit {
     this.LoadqueList();
   }
 
-
+  year = '2526';
   // โหลด Q list
   qlist: any;
   LoadqueList() {
-    axios.get("https://asia-southeast2-brr-farmluck.cloudfunctions.net/dbcps/select_s_f_w_0?s=*&f=[dbQBRD].[dbo].[v_qcard2425]&w=[Qtype]=6 and[print_q]in(1,2)")
+    axios.get(`https://asia-southeast2-brr-farmluck.cloudfunctions.net/dbcps/select_s_f_w_0?s=*&f=[dbQBRD].[dbo].[v_qcard${this.year}]&w=[Qtype]in(5,6) and[print_q]in(1,2)`)
       .then(res => {
         this.spinner.show();
         this.qlist = res.data;

@@ -8,7 +8,7 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-11">
                         <div class="card">
                             <div class="card-header bg-danger">ยกเลิกคิวที่จอง
                                 <button class="btn btn-info" (click)="LoadqueList();">โหลดข้อมูลใหม่</button>
@@ -34,7 +34,7 @@
                                             <td>{{item.fmname}}</td>
                                             <td>{{item.q_desc}}</td>
                                             <td>{{item.truck_no}}</td>
-                                            <td>{{item.REGTRUCK}}</td>
+                                            <td>{{item.regtruck}}</td>
                                             <td>{{item.carduid}}</td>
                                             <td>
                                                 <button class="btn btn-sm btn-danger" (click)="CancleQue(item.truck_q)">
