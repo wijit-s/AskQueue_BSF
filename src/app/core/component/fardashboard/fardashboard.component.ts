@@ -64,7 +64,7 @@ export class FardashboardComponent implements OnInit {
   farmerzone21: any[] = [];
   Loadfarmer21() {
     let url = ''
-    url = `${this.h_url}/dbcps/select_s_f_w_0?s=[fmcode_b1],[fmcode],[fmname],[SUPZONE],[farmer_id]&f=CPS6263.dbo.v_farmer_basic&w=supzone='21'`
+    url = `${this.h_url}/dbcps/select_s_f_w_0?s=[fmcode_b1],[fmcode],[fmname],[SUPZONE],[farmer_id]&f=CPS6263.dbo.v_farmer_basic&w=supzone in('21','22','23') order by fmcode_b1`;
     axios.get(url)
       .then(res => {
         let data = res.data;
