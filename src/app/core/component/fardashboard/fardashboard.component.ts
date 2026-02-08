@@ -126,6 +126,7 @@ export class FardashboardComponent implements OnInit {
         }
         else {
           this.onSelect(2);
+          this.data_s.farmer_id = data.farmer_id;
           this.data_s.truck_q = data.truck_q;
         }
         console.log('v_Printcard:', data);
@@ -159,7 +160,7 @@ export class FardashboardComponent implements OnInit {
     //let regtruck = (this.FormOne.get('twotruckreg')?.value).slice(0, 10);
     //let relength = regtruck.length;
     //let ckregtruck = (this.FormOne.get('twotruckreg')?.value).slice(0, 4);
-    if (data_s.truck_q.length < 10) { alert("!!กรุณาแสกน บาร์โคด 10 หลัก ที่ใช้ได้ ที่ขึ้นต้น ด้วย 71,72,73 !!"); return }
+    if (data_s.truck_q.length < 10) { alert("!!กรุณาแสกน บาร์โคด 10 หลัก ที่ใช้ได้ ที่ขึ้นต้น ด้วย 71,72,73,74,75!!"); return }
     if (this.checkprintQue != 0) { alert("!!คิวถูกแจ้งไปแล้ว ไม่สามารถใช้คิวซ้ำได้!!"); return }
     if (data_s.farmer_id == 0) { alert("กรุณาเลือกชาวไร่ หรือ ระบุโควตา"); return }
     if (data_s.truckbrr_id == 0) { alert("กรุณาเลือกรหัสรถบรรทุก 10 หลัก ตามด้วยทะเบียน"); return }
@@ -174,7 +175,7 @@ export class FardashboardComponent implements OnInit {
       + "&userlogin='" + this.userdata[0].supcode + "'"
       + "&truck_q=" + this.barcode;
 
-    console.log(url);
+    //console.log(url);
     if (confirm('ต้องการบันทึกรายการ หรือไม่ ?') == true) {
       axios.post(url).then(res => {
         if (res.data.rowsAffected[0] == 1) {
