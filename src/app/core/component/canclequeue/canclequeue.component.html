@@ -2,56 +2,59 @@
     <p style="color: white"> Loading... </p>
 </ngx-spinner>
 <div class="wrapper">
-    <app-sidebar></app-sidebar>
-    <div class="main-panel">
-        <app-header></app-header>
-        <div class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-11">
-                        <div class="card">
-                            <div class="card-header bg-danger">ยกเลิกคิวที่จอง
-                                <button class="btn btn-info" (click)="LoadqueList();">โหลดข้อมูลใหม่</button>
-                            </div>
-                            <div class="card-body">
-                                <table class="table table-sm">
-                                    <thead>
-                                        <th scope="col"> เลขคิว</th>
-                                        <th scope="col"> เลข Barcode</th>
-                                        <th scope="col"> รหัสชาวไร่ </th>
-                                        <th scope="col"> ชื่อ-สกุล </th>
-                                        <th scope="col"> สถานะคิว </th>
-                                        <th scope="col"> รหัสรถบรรทุก </th>
-                                        <th scope="col">เลขทะเบียนรถ</th>
-                                        <th scope="col">carduid</th>
-                                        <th scope="col">ยกเลิก</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let item of qlist">
-                                            <td>{{item.q_id}}</td>
-                                            <td>{{item.truck_q}}</td>
-                                            <td>{{item.FMCODE_b1}}</td>
-                                            <td>{{item.fmname}}</td>
-                                            <td>{{item.q_desc}}</td>
-                                            <td>{{item.truck_no}}</td>
-                                            <td>{{item.regtruck}}</td>
-                                            <td>{{item.carduid}}</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-danger" (click)="CancleQue(item.truck_q)">
-                                                    <i class="material-icons">close</i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+    <div class="card mt-4 mb-4 shadow-sm">
+        <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center py-3">
+            <div>
+                <h5 class="mb-0">
+                    <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">delete_outline</i>
+                    ยกเลิกคิวที่จอง
+                </h5>
+            </div>
+            <button class="btn btn-light btn-sm" (click)="LoadqueList();">
+                <i class="material-icons" style="vertical-align: middle;">refresh</i>
+                โหลดข้อมูลใหม่
+            </button>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" class="text-center">เลขคิว</th>
+                            <th scope="col" class="text-center">Barcode</th>
+                            <th scope="col" class="text-center">รหัสชาวไร่</th>
+                            <th scope="col">ชื่อ-สกุล</th>
+                            <th scope="col" class="text-center">สถานะคิว</th>
+                            <th scope="col" class="text-center">รหัสรถ</th>
+                            <th scope="col" class="text-center">ทะเบียนรถ</th>
+                            <th scope="col" class="text-center">จองคิวตอน</th>
+                            <th scope="col" class="text-center">UID</th>
+                            <th scope="col" class="text-center">ดำเนินการ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of qlist" class="align-middle">
+                            <td class="text-center fw-bold">{{item.q_id}}</td>
+                            <td class="text-center">{{item.truck_q}}</td>
+                            <td class="text-center">{{item.FMCODE_b1}}</td>
+                            <td> {{item.fmname}} </td>
+                            <td class="text-center">
+                                <span class="badge bg-info">{{item.q_desc}}</span>
+                            </td>
+                            <td class="text-center">{{item.truck_no}}</td>
+                            <td class="text-center">{{item.regtruck}}</td>
+                            <td class="text-center">{{item.booktime_th}}</td>
+                            <td class="text-center text-muted">{{item.carduid}}</td>
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-danger btn-icon" (click)="CancleQue(item.truck_q)"
+                                    title="ยกเลิกคิวนี้">
+                                    <i class="material-icons">delete</i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <app-footer></app-footer>
-
     </div>
 </div>

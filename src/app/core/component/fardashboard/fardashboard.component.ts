@@ -5,6 +5,8 @@ import axios from 'axios';
 import { BarcodeScannerLivestreamComponent } from 'ngx-barcode-scanner';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CanclequeueComponent } from '../canclequeue/canclequeue.component';
+
 declare var $: any;
 @Component({
   selector: 'app-fardashboard',
@@ -16,6 +18,8 @@ export class FardashboardComponent implements OnInit {
   @ViewChild(BarcodeScannerLivestreamComponent)
   barcodeScanner: BarcodeScannerLivestreamComponent = new BarcodeScannerLivestreamComponent;
   barcodeValue: any;
+
+  @ViewChild('canclequeue', { static: false }) Cancleq?: CanclequeueComponent;
 
   barcode_type = "code_128"
   userdata: any[];
@@ -184,6 +188,7 @@ export class FardashboardComponent implements OnInit {
           $('#showqueue').modal('show');
           this.FormOne.reset();
           this.farqrdata = null;
+          this.Cancleq?.LoadqueList();
         }
         else if (res.data.rowsAffected[0] == 0) { alert("!!กรุณาลองใหม่ บันทึกรายการไม่สำเร็จ!!"); }
         else if (res.data.code) { alert("!!กรุณาลองใหม่ บันทึกรายการไม่สำเร็จ!!") }

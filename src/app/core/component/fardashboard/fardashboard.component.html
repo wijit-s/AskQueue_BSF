@@ -1,122 +1,113 @@
-<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="false">
-    <p style="color: white"> Loading... </p>
-</ngx-spinner>
 <div class="wrapper">
     <app-sidebar></app-sidebar>
     <div class="main-panel">
         <app-header></app-header>
         <div class="content">
-            <!-- container-fluid -->
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-11">
-                        <div class="card">
-                            <div class="card-body">
-
-                                <!-- 
-                        <button class="btn btn-success btn-sm" (click)="OpenBarcodeScan()">เปิดแสกน</button>
-                        <button class="btn btn-danger btn-sm" (click)="CloseBarcodeScan()">ปิดแสกน</button>
-
-                        <barcode-scanner-livestream
-                        type="code_39"
-                        (valueChanges)="onValueChanges($event)"
-                        (started)="(onStarted)"></barcode-scanner-livestream>
-                      <div [hidden]="!barcodeValue">
-                        {{ barcodeValue }}
-                      </div> 
-                      -->
-
-                                <form [formGroup]="FormOne" (ngSubmit)="UpdateQueue()" novalidate>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text" id="basic-addon1">
-                                            Barcode คิวอ้อยทางไกล
-                                        </span>
-                                        <input autofocus type="text" maxlength="10" formControlName="zeroqrcodedata"
-                                            class="form-control" (input)="onKey($event)"
-                                            (change)="Loadqonline(barcode)">
-
-                                        <!-- validation message -->
-                                        <div *ngIf="FormOne.get('zeroqrcodedata')?.invalid && (FormOne.get('zeroqrcodedata')?.touched || FormOne.get('zeroqrcodedata')?.dirty)"
-                                            class="text-danger small mt-1">
-                                            <div *ngIf="FormOne.get('zeroqrcodedata')?.errors?.required">กรุณาใส่
-                                                Barcode</div>
-                                            <div *ngIf="FormOne.get('zeroqrcodedata')?.errors?.minlength">Barcode
-                                                ต้องมีอย่างน้อย 10 ตัวอักษร</div>
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white py-3">
+                        <h5 class="mb-0">
+                            <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">receipt</i>
+                            บันทึกคิวอ้อยทางไกล
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="FormOne" (ngSubmit)="UpdateQueue()" novalidate>
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <!-- Barcode Input -->
+                                    <div class="mb-3">
+                                        <label for="barcodeInput" class="form-label fw-semibold">Barcode
+                                            คิวอ้อยทางไกล</label>
+                                        <div class="input-group">
+                                            <input autofocus type="text" id="barcodeInput" maxlength="10"
+                                                formControlName="zeroqrcodedata" class="form-control"
+                                                (input)="onKey($event)" (change)="Loadqonline(barcode)"
+                                                placeholder="กรุณาสแกน Barcode">
+                                            <span class="input-group-text">
+                                                <i class="material-icons">barcode_scanner</i>
+                                            </span>
                                         </div>
+                                        <div *ngIf="FormOne.get('zeroqrcodedata')?.invalid && (FormOne.get('zeroqrcodedata')?.touched || FormOne.get('zeroqrcodedata')?.dirty)"
+                                            class="text-danger small mt-2">
+                                            <div *ngIf="FormOne.get('zeroqrcodedata')?.errors?.required">
+                                                <i class="material-icons"
+                                                    style="font-size: 16px; vertical-align: text-bottom;">error</i>
+                                                กรุณาใส่ Barcode
+                                            </div>
+                                            <div *ngIf="FormOne.get('zeroqrcodedata')?.errors?.minlength">
+                                                <i class="material-icons"
+                                                    style="font-size: 16px; vertical-align: text-bottom;">error</i>
+                                                Barcode ต้องมีอย่างน้อย 10 ตัวอักษร
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <!-- <p>barcode: {{ barcode }}</p>  -->
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text">
-                                            1.โควตาชาวไร่ :
-                                        </span>
-                                        <input type="text" list="farmer21" class="form-control"
-                                            formControlName="onefmcode" (change)="onSelect(2)" (input)="onSelect(2)">
+                                    <!-- Farmer Code Input -->
+                                    <div class="mb-3">
+                                        <label for="farmerInput" class="form-label fw-semibold">1. โควตาชาวไร่</label>
+                                        <input type="text" id="farmerInput" list="farmer21" class="form-control"
+                                            formControlName="onefmcode" (change)="onSelect(2)" (input)="onSelect(2)"
+                                            placeholder="เลือกหรือกรอกรหัสชาวไร่">
                                         <datalist id="farmer21">
                                             <option *ngFor="let item of farmerzone21" [value]="item.fmcode_b1">
-                                                {{item.fmcode_b1}}:{{item.fmname}} , โซน {{item.SUPZONE}}</option>
+                                                {{item.fmcode_b1}}: {{item.fmname}} - โซน {{item.SUPZONE}}
+                                            </option>
                                         </datalist>
                                         <div *ngIf="FormOne.get('onefmcode')?.invalid && (FormOne.get('onefmcode')?.touched || FormOne.get('onefmcode')?.dirty)"
-                                            class="text-danger small mt-1">
+                                            class="text-danger small mt-2">
                                             <div *ngIf="FormOne.get('onefmcode')?.errors?.required">
-                                                กรุณาเลือกหรือกรอกโควตาชาวไร่</div>
+                                                <i class="material-icons"
+                                                    style="font-size: 16px; vertical-align: text-bottom;">error</i>
+                                                กรุณาเลือกหรือกรอกโควตาชาวไร่
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text">
-                                            2.ทะเบียนรถ :
-                                        </span>
-                                        <input type="text" class="form-control" formControlName="twotruckreg"
-                                            (change)="onSelect(3)" (input)="onSelect(3)"
-                                            placeholder="เลือกทะเบียนรถ รหัสรถ 10 หลัก" list="Truckdata">
+
+                                    <!-- Truck Registration Input -->
+                                    <div class="mb-3">
+                                        <label for="truckInput" class="form-label fw-semibold">2.
+                                            ทะเบียนรถบรรทุก</label>
+                                        <input type="text" id="truckInput" class="form-control"
+                                            formControlName="twotruckreg" (change)="onSelect(3)" (input)="onSelect(3)"
+                                            placeholder="เลือกทะเบียนรถ" list="Truckdata">
                                         <datalist id="Truckdata">
                                             <option *ngFor="let item of truckdata" [value]="item.TRUCK_NO">
-                                                {{item.TRUCK_NO}}, {{item.REGTRUCK}} - {{item.FMname}}</option>
+                                                {{item.TRUCK_NO}}: {{item.REGTRUCK}} - {{item.FMname}}
+                                            </option>
                                         </datalist>
                                         <div *ngIf="FormOne.get('twotruckreg')?.invalid && (FormOne.get('twotruckreg')?.touched || FormOne.get('twotruckreg')?.dirty)"
-                                            class="text-danger small mt-1">
+                                            class="text-danger small mt-2">
                                             <div *ngIf="FormOne.get('twotruckreg')?.errors?.required">
-                                                กรุณาเลือกหรือกรอกทะเบียนรถ</div>
+                                                <i class="material-icons"
+                                                    style="font-size: 16px; vertical-align: text-bottom;">error</i>
+                                                กรุณาเลือกหรือกรอกทะเบียนรถ
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="input-group mb-3">
-                                        <button type="submit" class="btn btn-info"
-                                            [disabled]="FormOne.invalid || (FormOne.get('zeroqrcodedata')?.value?.length < 10)">บันทึก</button>
+                                    <!-- Submit Button -->
+                                    <div class="mt-4">
+                                        <button type="submit" class="btn btn-primary btn-lg"
+                                            [disabled]="FormOne.invalid || (FormOne.get('zeroqrcodedata')?.value?.length < 10)">
+                                            <i class="material-icons"
+                                                style="vertical-align: middle; margin-right: 8px;">save</i>
+                                            บันทึก
+                                        </button>
                                     </div>
-                                </form>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-body">
-                        <table class="table" *ngFor="let item of farqrdata">
-                            <tr>
-                                <td> ใบคิว</td>
-                                <td>{{item.truck_q}} </td>
-                            </tr>
-                            <tr>
-                                <td> เจ้าของอ้อย</td>
-                                <td>{{item.fmname}} </td>
-                            </tr>
-                            <tr>
-                                <td> </td>
-                                <td>{{item.f}} </td>
-                            </tr>
-
-                        </table>
-                    </div>
+                <div class="card mt-4 mb-4 shadow-sm">
+                    <app-canclequeue #canclequeue ></app-canclequeue>
                 </div>
             </div>
-            <!-- container-fluid -->
         </div>
         <app-footer></app-footer>
     </div>
-    <!--<app-canclequeue></app-canclequeue>-->
 </div>
 
 <!-- Modal -->
@@ -124,17 +115,20 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalScrollableTitle">ลำดับคิว</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">
+                    <i class="material-icons" style="vertical-align: middle; margin-right: 8px;">info</i>
+                    ลำดับคิว
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-dismiss="modal"
+                    aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                นำคิวนี้ไปเขียนบนบัตร : {{this.forwardqrun + 1}}
+                <p class="mb-0">นำคิวนี้ไปเขียนบนบัตร: <strong class="text-primary">{{this.forwardqrun + 1}}</strong>
+                </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
             </div>
         </div>
     </div>
