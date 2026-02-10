@@ -27,7 +27,7 @@ export class FardashboardComponent implements OnInit {
   constructor(private userlogin: LoginService, private spinner: NgxSpinnerService, private router: Router) {
 
     this.userdata = this.userlogin.Loadlocal();
-    console.log(this.userdata)
+    //console.log(this.userdata)
     if (this.userdata.length == 0) {
       this.router.navigateByUrl("/login");
     }
@@ -111,21 +111,25 @@ export class FardashboardComponent implements OnInit {
   }
 
   // โหลดข้อมูลจาก QRCODE
-  farqrdata: any;
   checkprintQue: any;
   Loadqonline(code: any) {
     let barcode = this.FormOne.get("zeroqrcodedata")?.value;
     let url = `${this.h_url}/dbcps/select_s_f_w_0?s=*&f=[dbQBRD].[dbo].[v_Printcard]&w=truck_q='${barcode}'`
     axios.get(url)
       .then(res => {
-        let data = res.data[0];
-        //this.farqrdata = res.data.recordset;
+        let data = res.data;
+        if (data.length == 0) {
+          alert("!!ไม่พบข้อมูลคิว " + barcode + " ในระบบ กรุณาลองใหม่!!");
+          this.barcode = '';
+          this.FormOne.reset();
+          return;
+        }
+        data = data[0];
         this.FormOne.get('onefmcode')?.setValue(data.fmcode || '');
         let ckp = this.checkprintQue = data.print_q;
         if (parseInt(ckp) != 0) {
           alert("!!ใบคิว " + data.truck_q + " ถูกใช้ไปแล้ว ไม่สามารถใช้คิวซ้ำได้!!");
           this.barcode = '';
-          this.farqrdata = '';
           this.FormOne.reset();
         }
         else {
@@ -187,7 +191,6 @@ export class FardashboardComponent implements OnInit {
           this.SendsortQueue();
           $('#showqueue').modal('show');
           this.FormOne.reset();
-          this.farqrdata = null;
           this.Cancleq?.LoadqueList();
         }
         else if (res.data.rowsAffected[0] == 0) { alert("!!กรุณาลองใหม่ บันทึกรายการไม่สำเร็จ!!"); }
@@ -234,7 +237,6 @@ export class FardashboardComponent implements OnInit {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     this.farmerzone21 = [];
-    this.farqrdata = null;
   }
 }
 
